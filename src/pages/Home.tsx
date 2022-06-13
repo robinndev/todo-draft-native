@@ -7,12 +7,6 @@ import { TodoInput } from '../components/TodoInput';
 
 export function Home() {
 
-  interface Task {
-    id: number;
-    title: string;
-    done: boolean;
-  }
-
   const [tasks, setTasks] = useState<Task[]>([]);
 
 
