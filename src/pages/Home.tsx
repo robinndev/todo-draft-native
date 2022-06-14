@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 
 import { Header } from '../components/Header';
 import { Task, TasksList } from '../components/TasksList';
@@ -9,15 +9,20 @@ export function Home() {
 
   const [tasks, setTasks] = useState<Task[]>([]);
 
-
   function handleAddTask(newTaskTitle: string) {
-    const data = {
-      id: new Date().getTime(),
-      title: newTaskTitle,
-      done: false,
-    }
+    const toDoTeste = tasks.find((element) => element.title === newTaskTitle)
 
-    setTasks(oldState => [...oldState, data])
+    if(toDoTeste) {
+      Alert.alert('Você não pode cadastrar uma task com o mesmo nome')
+    } else {
+      const data = {
+        id: new Date().getTime(),
+        title: newTaskTitle,
+        done: false,
+      }
+
+      setTasks(oldState => [...oldState, data])
+    }
     //TODO - add new task
   }
 
@@ -33,18 +38,23 @@ export function Home() {
       foundItem.done = !foundItem.done;
       setTasks(updatedTasks)
       console.log(tasks)
-    
-    
-    // if(itemTrue) {
-    // }
-    // setTasks(updatedTasks => updatedTasks.find(element => element.id !== id));
     //TODO - toggle task done if exists
   }
 
   function handleRemoveTask(id: number) {
-
-    const found = setTasks(oldState => oldState.filter(element => element.id !== id))
-    console.log('LENDO')
+    Alert.alert(
+      "Remover item",
+      "Tem certeza que você deseja remover esse item?",
+      [
+        {
+          text: "Não",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "Sim", onPress: () => setTasks(oldState => oldState.filter(element => element.id !== id)) }
+      ]
+    ); 
+    // COLOQUEI UM ALERT
     //TODO - remove task from state
   }
 
